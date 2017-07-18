@@ -2,4 +2,5 @@
     <string name="app_name">Top4 App</string>
     <string name="edit_message">Enter a message</string>
     <string name="button_send">Send</string>
+    <string name="default_article">2</string>
 </resources>

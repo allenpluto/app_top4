@@ -1,10 +1,14 @@
 package au.com.top4.top4app;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 /**
@@ -12,8 +16,13 @@ import android.widget.TextView;
  */
 
 public class ArticleFragment extends Fragment {
-    final static String ARG_POSITION = "position";
+    final static String ARG_POSITION = "2";
     int mCurrentPosition = -1;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,13 +50,23 @@ public class ArticleFragment extends Fragment {
         } else if (mCurrentPosition != -1) {
             // Set article based on saved instance state defined during onCreateView
             updateArticleView(mCurrentPosition);
+        } else {
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            mCurrentPosition = sharedPref.getInt(getString(R.string.default_article),0);
+            updateArticleView(mCurrentPosition);
         }
     }
 
-    public void updateArticleView(int position) {
+    public int updateArticleView(int position) {
         TextView article = (TextView) getActivity().findViewById(R.id.article);
         article.setText(Ipsum.Articles[position]);
         mCurrentPosition = position;
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        Integer current_article = sharedPref.getInt(getString(R.string.default_article),0);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt(getString(R.string.default_article), position);
+        editor.commit();
+        return current_article;
     }
 
     @Override

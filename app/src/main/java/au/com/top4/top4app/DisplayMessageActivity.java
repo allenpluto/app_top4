@@ -49,7 +49,10 @@ public class DisplayMessageActivity extends FragmentActivity
             // If article frag is available, we're in two-pane layout...
 
             // Call a method in the ArticleFragment to update its content
-            articleFrag.updateArticleView(position);
+            Integer return_value = articleFrag.updateArticleView(position);
+            TextView textView = (TextView) findViewById(R.id.textView);
+            textView.setText("Returned value: "+return_value);
+
 
         } else {
             // If the frag is not available, we're in the one-pane layout and must swap frags...
